@@ -26,7 +26,8 @@ module.exports = function( rs ) {
         'navigation.js',
         'home-page.js',
         'signin-page.js',
-        'main.js'
+        'main.js',
+        'play.js'
       ]
       
       .map( function( v ) {
@@ -73,6 +74,7 @@ module.exports = function( rs ) {
       { extension: 'jpeg' },
       { extension: 'ttf'  },
       { extension: 'woff' },
+      { extension: 'woff2' },
       { extension: 'svg'  },
       { extension: 'mp3'  }
     ] )
