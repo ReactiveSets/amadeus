@@ -1,0 +1,24 @@
+{
+  "name": "amadeus",
+  "version": "0.1.0",
+  "description": "Collaborative musical partition for drums and synchronized playback for fun and toubkal demo",
+  "main": "application.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ReactiveSets/amadeus.git"
+  },
+  "keywords": [
+    "toubkal",
+    "music",
+    "synchronization"
+  ],
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/ReactiveSets/amadeus/issues"
+  },
+  "homepage": "https://github.com/ReactiveSets/amadeus#readme"
+}
