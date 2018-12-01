@@ -2237,13 +2237,13 @@ a.has-text-danger:hover, a.has-text-danger:focus {
 */
 @font-face {
   font-family: 'Gotham';
-  src: local("Gotham Book"), local("Gotham-Book"), url("../../public/fonts/Gotham/Gotham-Book.woff2") format("woff2"), url("../../public/fonts/Gotham/Gotham-Book.woff") format("woff");
+  src: local("Gotham Book"), local("Gotham-Book"), url("../../css/fonts/Gotham/Gotham-Book.woff2") format("woff2"), url("../../css/fonts/Gotham/Gotham-Book.woff") format("woff");
   font-weight: normal;
   font-style: normal; }
 
 @font-face {
   font-family: 'Gotham-ultra';
-  src: local("Gotham Ultra"), local("Gotham-Ultra"), url("../../public/fonts/Gotham/Gotham-Ultra.woff2") format("woff2"), url("../../public/fonts/Gotham/Gotham-Ultra.woff") format("woff");
+  src: local("Gotham Ultra"), local("Gotham-Ultra"), url("../../css/fonts/Gotham/Gotham-Ultra.woff2") format("woff2"), url("../../css/fonts/Gotham/Gotham-Ultra.woff") format("woff");
   font-weight: 500;
   font-style: normal; }
 
