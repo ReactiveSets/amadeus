@@ -23,8 +23,6 @@
     .socket_io_server()
     
     .strategies_or_profile()
-    
-    // .trace().greedy()
   ;
   
   // --------------------------------------------------------------------------
@@ -64,12 +62,12 @@
     
     .delivers( dataflows )
     
-    .set_reference( 'updates' )
+    .set_output( 'updates' )
     
     .database_cache()
     
     // also send application updates to socket.io server
-    .reference( 'updates' )
+    .output( 'updates' )
     
     .trace( 'to socket_io_server', { all: true } )
     

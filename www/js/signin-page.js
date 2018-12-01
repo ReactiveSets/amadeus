@@ -33,24 +33,24 @@
             return {
                 id: 'main'
               , tag: 'main'
-              , content: '<section class="section bk-blue h-100">'
+              , content: '<section class="section bk-blue h-100 relative">'
                   +  '<div class="container signin">'
                   +   '<header>'
-                  +    '<div class="signin__title c-white t-center"> Welcome to </div>'
-                  +    '<figure>'
+                  +    '<div class="signin__title c-blueLigth t-center"> Welcome to </div>'
+                  +    '<figure class="signin__logo>'
                   +     '<img src="../public/images/logo-amadeus.svg" alt="Logo Amadeus" />'
                   +    '</figure>'
                   +   '</header>'
-                  +   '<p class="c-white t-center">'
+                  +   '<p class="c-blueLigth t-center">'
                   +    'La musique est un marqueur temporel de l\'histoire de l\'humanité.'
                   +   '</p>'
-                  +   '<div class="connect">'
+                  +   '<div class="connect t-center">'
           // <a href="#" class="btn btn--blueLight"><span>Se connecter avec</span> <span class="icon-img"><img src="../public/images/github.svg" alt="github" /></span></a>
           // <a href="#" class="btn btn--blueLight"><span>Se connecter avec</span> <span class="icon-img"><img src="../public/images/outlook.svg" alt="github" /></span></a>
           // <a href="#" class="btn btn--blueLight"><span>Se connecter avec</span> <span class="icon-img"><img src="../public/images/facebook.svg" alt="github" /></span></a>
                   +   '</div>'
-                  +   '<footer>'
-                  +    '<p><strong> @2018 By TOUBKAL. </strong> Tous droit reservés.</p>'
+                  +   '<footer class="signin__footer">'
+                  +    '<p class="c-white"> <strong> @2018 By TOUBKAL. </strong> Tous droit reservés.'
                   +   '</footer>'
                   +  '</div>'
                   + '</section>'
@@ -75,7 +75,7 @@
                   , $node: $
                   , content: '<span>Se connecter avec</span> '
                       + '<span class="icon-img">'
-                      +  '<img src="../public/images/' + strategy.name + '.svg" alt="' + strategy.display_name + '" />'
+                      +  '<img src="images/' + strategy.name + '.svg" alt="' + strategy.display_name + '" />'
                       + '</span>'
                   , attributes: { class: 'btn btn--blueLight', href: strategy.href, role: 'button' }
                   , order: strategy.order

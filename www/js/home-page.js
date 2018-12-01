@@ -28,33 +28,92 @@
       var rs = source.namespace();
       
       // ----------------------------------------------------------
-      // grid container
-      var $container = rs
+      // page items
+      var $items = rs
         .set( [
           {
               id: 'container'
             , tag: 'div'
             , attributes: { class: 'container' }
+          },
+          {
+              id: 'controls'
+            , tag: 'div'
+            , attributes: { class: 'section controls' }
           }
         ] )
         
         .$to_dom( $selector )
         
-        .alter( function( _ ) {
-          _.id = 'form';
-          _.tag = 'form';
-          _.attributes = { class: 'sequencer', action: '#' };
+        .set()
+      ;
+      
+      var $containers = $items
+        .filter( [ { id: 'container' } ] )
+        
+        .flat_map( function( _ ) {
+          return [
+            {
+                id: 'header'
+              , tag: 'header'
+              , $node: $
+              , attributes: { class: 'columns columns--middle is-mobile' }
+            },
+            {
+                id: 'form'
+              , tag: 'form'
+              , $node: $
+              , attributes: { class: 'sequencer' }
+            }
+          ]
+        } )
+        
+        .$to_dom()
+      ;
+      
+      var $controls = $items
+        .filter( [ { id: 'controls' } ] )
+        
+        .map( function( _ ) {
+          return {
+              id: 'control-container'
+            , tag: 'div'
+            , $node: _.$node
+            , attributes: { class: 'container'  }
+          }
         } )
         
         .$to_dom()
         
-        .alter( function( _ ) {
-          _.id = 'columns';
-          _.tag = 'div';
-          _.attributes = { class: 'columns is-mobile' };
+        .map( function( _ ) {
+          return {
+              id: 'control-columns'
+            , tag: 'div'
+            , $node: _.$node
+            , attributes: { class: 'columns columns--little column--middle is-mobile'  }
+          }
         } )
         
         .$to_dom()
+        
+        .flat_map( function( _ ) {
+          return [ 'basse', 'big-caisse', 'caisse', 'cymbale', 'cymbale-ride' ]
+            .map( function( v )
+              return {
+                  id: 'column-' + v
+                , tag: 'div'
+                , attributes: { class: 'column' }
+              }
+            } )
+          ]
+        } )
+      ;
+      // ----------------------------------------------------------
+      // 
+      source
+        .flow( 'sequencer' )
+        
+        .trace().greedy()
       ;
     } ) // $amadeus()
   ;
