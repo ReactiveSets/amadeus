@@ -9,12 +9,30 @@
   // database schema
   var schema = [
     { id: 'login_strategies' },
-    { id: 'profile' },
-    { id: 'todos'   }
+    { id: 'profile'          },
+    { id: 'tracks'           },
+    { id: 'sequencer'        }
   ];
   
   // dataflows Array for pipelet delivers()
   var dataflows = schema.map( function( _ ) { return _.id } );
+  
+  // login strategies or profile
+  var strategies_or_profile = rs
+    .socket_io_server()
+    
+    .strategies_or_profile()
+    
+    .trace().greedy()
+  ;
+  
+  // --------------------------------------------------------------------------
+  // sign-in page
+  strategies_or_profile
+    .flow( 'login_strategies' )
+    
+    .$signin( 'body' )
+  ;
   
   // main pipeline:
   // database cache ==> application ==> database cache

@@ -17,6 +17,34 @@
   // dataflows Array for pipelet delivers()
   var dataflows = schema.map( function( _ ) { return _.id } );
   
+  // --------------------------------------------------------------------------
+  // login strategies or profile
+  var strategies_or_profile = rs
+    .socket_io_server()
+    
+    .strategies_or_profile()
+    
+    // .trace().greedy()
+  ;
+  
+  // --------------------------------------------------------------------------
+  // sign-in page
+  strategies_or_profile
+    .flow( 'login_strategies' )
+    
+    .$signin( 'body' )
+  ;
+  
+  // --------------------------------------------------------------------------
+  // main container
+  var $main = strategies_or_profile
+    .flow( 'profile' )
+    
+    .pick( { id: 'main' , tag: 'main' } )
+    
+    .$to_dom( 'body' )
+  ;
+  // --------------------------------------------------------------------------
   // main pipeline:
   // database cache ==> application ==> database cache
   //                                ==> socket.io server ==> database cache
@@ -32,7 +60,7 @@
     .delivers( dataflows )
     
     // application
-    .route( rs.url_route(), 'body' )
+    .route( rs.url_route(), $main )
     
     .delivers( dataflows )
     

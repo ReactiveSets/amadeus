@@ -79,7 +79,7 @@
               , pipelet_name: '$amadeus'
               , title: ''
               , tag: 'section'
-              , attributes: { class: '' }
+              , attributes: { class: 'section h-100' }
             }
           ].map( function( v, i ) {
             return extend( { flow: 'application_routes' }, v, { order: i } );
