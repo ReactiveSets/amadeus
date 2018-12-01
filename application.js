@@ -25,6 +25,9 @@ module.exports = function( servers ) {
   
   var session_options = require( './passport.js' )( servers, rs );
   
+  // amadeus_beats
+  require( './beat' )( rs );
+  
   // ---------------------------------------------------------------------------------------------------------------
   // Login Strategies
   var login_strategies = rs
@@ -93,7 +96,7 @@ module.exports = function( servers ) {
   rs
     .database()
     
-    .union( [ login_strategies, sessions ] )
+    .union( [ login_strategies, sessions, rs.amadeus_beats( 2000 ) ] )
     
     //.trace( 'all dataflows to clients' )
     
