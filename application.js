@@ -1,35 +1,26 @@
-/*  application.js
-
-    Licence
-*/
-module.exports = function( servers ) {
+module.exports = function( servers, module ) {
   'use strict';
   
-  var rs = servers.create_namespace( 'amadeus', true );
+  var path        = require( 'path' )
+    , application = module.application
+    , module_name = application.name || path.dirname( module.path ).split( path.sep ).slice( -1 )[ 0 ]
+    , www_base    = [ __dirname, application.www || 'www' ]
+    , rs          = servers.create_namespace( module_name, true )
+    , RS          = rs.RS
+    , log         = RS.log.bind( null, module_name )
+  ;
+  
+  log( 'starting application:', application );
   
   servers.set_namespace( rs ); // set namespace to servers' child namespace
   
-  // ---------------------------------------------------------------------------------------------------------------
-  // Listen and Serve assets to http servers
-  var assets = require( './assets.js' )( rs );
-  
-  // Listen when files are ready
-  servers.http_listen( assets );
-  
-  // Serve assets to http servers
-  assets.serve( servers, { session_options: session_options } );
-  
-  // ---------------------------------------------------------------------------------------------------------------
-  // Database and Authentication
   require( './database.js' )( rs );
   
+  /* --------------------------------------------------------------------------
+      Authentication with passport
+  */
   var session_options = require( './passport.js' )( servers, rs );
   
-  // amadeus_beats
-  require( './beat' )( rs );
-  
-  // ---------------------------------------------------------------------------------------------------------------
-  // Login Strategies
   var login_strategies = rs
     
     .passport_strategies()
@@ -53,30 +44,50 @@ module.exports = function( servers ) {
     .set()
   ;
   
-  /* ---------------------------------------------------------------------------------------------------------------
+  /* --------------------------------------------------------------------------
       Sessions
   */
   var sessions = rs
     
     .session_store()
     
-    .trace( 'session store content' )
+    //.trace( 'session store content' )
     
     .passport_user_sessions()
   ;
   
-  /* ---------------------------------------------------------------------------------------------------------------
-      Serve to socket.io clients
+  // Listen when toubkal min is ready
+  servers.http_listen( rs.toubkal_min() );
+  
+  /* --------------------------------------------------------------------------
+      Serve all assets to servers
+  */
+  rs
+    .union(
+      [ rs.www_files( www_base ), 
+        rs.toubkal_min(),
+        rs.source_map_support_min(),
+        rs.build_bundles( __dirname, www_base )
+      ],
+      
+      { key: [ "path"] }
+    )
+    
+    .serve( servers, { session_options: session_options } )
+  ;
+  
+  /* --------------------------------------------------------------------------
+      Serve dataflows to socket.io clients
   */
   var client = {};
   
   var client_module = rs
     .set( [ { path: '' } ] )
-    .watch_directories( { base_directory: __dirname } )
-    .filter( [ { base: 'client.js', depth: 1 } ] )
+    .directory_entries( __dirname )
+    .filter( [ { type: 'file', base: 'client.js', depth: 1 } ] )
     .path_join( __dirname )
     .alter( function( _ ) { _.client = client } )
-    .trace( 'client module' )
+    //.trace( 'client module' )
   ;
   
   rs.dispatch( client_module, function( source, options ) {
@@ -96,7 +107,7 @@ module.exports = function( servers ) {
   rs
     .database()
     
-    .union( [ login_strategies, sessions, rs.amadeus_beats( 2000 ) ] )
+    .union( [ login_strategies, sessions ] )
     
     //.trace( 'all dataflows to clients' )
     
@@ -110,5 +121,4 @@ module.exports = function( servers ) {
     
     .database()
   ;
-  
 }; // module.exports

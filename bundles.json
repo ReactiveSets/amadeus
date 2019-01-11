@@ -1,0 +1,13 @@
+[
+  { id: "lib/amadeus-min.js", base_directory: "js", files: [
+      "route.js",
+      "application_routes.js",
+      "common-widgets.js",
+      "navigation.js",
+      "home-page.js",
+      "signin-page.js",
+      "main.js",
+      "play.js"
+    ]
+  }
+]

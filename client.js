@@ -80,6 +80,7 @@ module.exports = function client_handler( source, module, options ) {
         , user_profile
         , source.flow( 'sequencer' )
         , source.flow( 'tracks'    )
+        , source.flow( 'amadeus_beats' )
       ] )
       
       // .trace( 'client read', { all: true } )

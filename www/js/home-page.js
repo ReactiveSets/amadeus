@@ -52,6 +52,8 @@
         .filter( [ { id: 'container' } ] )
         
         .flat_map( function( _ ) {
+          var $ = _.$node;
+          
           return [
             {
                 id: 'header'
@@ -98,23 +100,16 @@
         
         .flat_map( function( _ ) {
           return [ 'basse', 'big-caisse', 'caisse', 'cymbale', 'cymbale-ride' ]
-            .map( function( v )
+            .map( function( v ) {
               return {
                   id: 'column-' + v
                 , tag: 'div'
                 , attributes: { class: 'column' }
               }
             } )
-          ]
+          ;
         } )
       ;
-      // ----------------------------------------------------------
-      // 
-      source
-        .flow( 'sequencer' )
-        
-        .trace().greedy()
-      ;
-    } ) // $amadeus()
+    } )
   ;
 } ); // module.export

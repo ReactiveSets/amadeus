@@ -9,7 +9,9 @@
 module.exports = function( rs ) {
   'use strict';
   
-  /* -------------------------------------------------------------------------------------------
+  require( './beat' )( rs );
+  
+  /* --------------------------------------------------------------------------
      Timestamp converter
   */
   var timestamp_converter = {
@@ -28,7 +30,7 @@ module.exports = function( rs ) {
     }
   };
   
-  /* -------------------------------------------------------------------------------------------
+  /* --------------------------------------------------------------------------
      Database Schema
   */
   var schema = rs.set( [
@@ -68,13 +70,28 @@ module.exports = function( rs ) {
     {
       id: 'tracks',
       columns: [ 'id', 'name', 'icon', 'sound' ]
+    },
+    
+    {
+      id: 'amadeus_beats',
+      
+      //debug: 'true',
+      
+      engine: function( input ) {
+        return input.amadeus_beats( 2000 )
+      }
     }
   ] );
   
-  /* -------------------------------------------------------------------------------------------
+  /* --------------------------------------------------------------------------
      Database Singleton
   */
   rs.Singleton( 'database', function( source, options ) {
+    var RS          = source.RS
+      , is_function = RS.is_function
+      , is_string   = RS.is_string
+    ;
+    
     return source.dispatch( schema, table );
     
     function table( source, options ) {
@@ -95,20 +112,25 @@ module.exports = function( rs ) {
         .remove_destination_with( source )
       ;
       
-      switch( engine ) {
-        case 'self':
-          table = input.through( schema );
-        break;
-        
-        case 'mysql':
-          table = input
-            .mysql( table_name, this.columns, {
-                mysql   : { database: 'amadeus' }
-              , key     : key
-            } )
-          ;
-        break;
-      } // switch( engine )
+      if ( is_function( engine ) ) {
+        table = engine( input );
+      
+      } else if ( is_string( engine ) ) {
+        switch( engine ) {
+          case 'self':
+            table = input.through( schema );
+          break;
+          
+          case 'mysql':
+            table = input
+              .mysql( table_name, this.columns, {
+                  mysql   : { database: 'amadeus' }
+                , key     : key
+              } )
+            ;
+          break;
+        } // switch( engine )
+      }
       
       return table
         .debug( debug, table_name + ' out', debug_options )

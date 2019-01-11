@@ -34,12 +34,12 @@
         - 0: not playing
         - 1: play
     */
-    .Compose( 'playback', function( play, database_cache, options ) {
+    .Compose( 'playback', function( source, database_cache, options ) {
       var rs = source.namespace();
       
       var subscription = source
         
-        .filter( { play: 1 } )
+        .filter( [ { play: 1 } ] )
         
         .pick( { flow: 'amadeus_beats' } )
       ;
@@ -72,7 +72,7 @@
         
         .filter( subscription )
         
-        //.trace( 'amadeus_beats' ).greedy()
+        .trace( 'amadeus_beats' ).greedy()
         
         .fetch( sequencer, { sequence: '.sequence' } )
         
@@ -99,5 +99,9 @@
         } )
       ;        
     } ) // pipelet playback()
+    
+    //.set( [ { play: 1 } ] )
+    
+    //.playback( rs.database_cache() )
   ;
 } );
